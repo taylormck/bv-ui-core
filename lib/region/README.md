@@ -28,7 +28,24 @@ region.lookupLocale('en_GB'); // europe
 
 ```
 This can be useful when you'll have to support detection of multiple regions.
-As only the EU region is supported for now, it's not particularly useful yet.
+
+The root module also supports AMD loading:
+```javascript
+define(['bv-ui-core/lib/region'], function (region) {
+
+  region.hasLocale('europe', 'en_US'); // false
+  region.hasLocale('europe', 'en_GB'); // true
+
+  region.hasTerritory('europe', 'US'); // false
+  region.hasTerritory('europe', 'GB'); // true
+
+  region.lookupTerritory('US'); // unsupported
+  region.lookupTerritory('GB'); // europe
+
+  region.lookupLocale('en_US'); // unsupported
+  region.lookupLocale('en_GB'); // europe
+})
+```
 
 Loading a specific region module:
 ```javascript
@@ -47,7 +64,8 @@ var europeanTerritories = europe.listTerritories();
 var europeanTerritoryMap = require('bv-ui-core/lib/region/europe/territories');
 ```
 This can be useful if you've no need for other regions and would like to shave
-every last byte from your client-side code.
+every last byte from your client-side code. Individual region modules do not
+support AMD loading.
 
 Errors will be thrown if invalid locale or territory codes are provided. This
 is to protect the user against mistaking language codes for territory codes.
